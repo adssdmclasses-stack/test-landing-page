@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You – Site Visit Confirmed | Prestige One Kokapet</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- GTM HEAD TAG – replace GTM-XXXXXXX -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script> -->
+
+  <style>
+    :root {
+      --orange:    #F4611A;
+      --orange-lt: #FF7A35;
+      --black:     #0D0D0D;
+      --dark:      #181818;
+      --card:      #1F1F1F;
+      --border:    #2E2E2E;
+      --text:      #E8E8E8;
+      --muted:     #9A9A9A;
+      --white:     #FFFFFF;
+      --green:     #2ECC71;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Barlow', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: rgba(13,13,13,0.95);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 60px;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .logo span { color: var(--orange); }
+
+    /* ── HERO ── */
+    .ty-hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ty-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(46,204,113,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 80% at 80% 20%, rgba(244,97,26,0.06) 0%, transparent 50%),
+        var(--black);
+    }
+    .ty-grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(244,97,26,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244,97,26,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    .ty-inner {
+      position: relative; z-index: 1;
+      max-width: 900px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* ── LEFT CONTENT ── */
+    .ty-left {}
+
+    .ty-check {
+      width: 80px; height: 80px;
+      background: rgba(46,204,113,0.12);
+      border: 2px solid var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .ty-check svg {
+      width: 36px; height: 36px;
+      stroke: var(--green);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.4); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .ty-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(46,204,113,0.1);
+      border: 1px solid rgba(46,204,113,0.3);
+      color: var(--green);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 3px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease 0.2s both;
+    }
+    .ty-headline {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s ease 0.3s both;
+    }
+    .ty-headline .acc { color: var(--orange); }
+
+    .ty-subhead {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease 0.4s both;
+    }
+    .ty-subhead strong { color: var(--text); }
+
+    /* ── WHAT HAPPENS NEXT ── */
+    .next-steps {
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease 0.5s both;
+    }
+    .next-steps-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .step-list { list-style: none; }
+    .step-item {
+      display: flex;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-num {
+      width: 32px; height: 32px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .step-content {}
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .step-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    .ty-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.5s ease 0.6s both;
+    }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-back:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── RIGHT: LEAD SUMMARY CARD ── */
+    .ty-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--green);
+      border-radius: 8px;
+      padding: 32px 28px;
+      animation: fadeLeft 0.6s ease 0.4s both;
+    }
+    .ty-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .ty-card-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    /* booked details */
+    .booked-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .booked-row:last-of-type { border-bottom: none; }
+    .booked-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .booked-val {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      text-align: right;
+    }
+    .booked-val.highlight { color: var(--orange); }
+
+    .ty-card-cta {
+      margin-top: 24px;
+      width: 100%;
+      background: var(--orange);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .ty-card-cta:hover { background: var(--orange-lt); }
+
+    .advisor-block {
+      margin-top: 20px;
+      background: rgba(244,97,26,0.06);
+      border: 1px solid rgba(244,97,26,0.2);
+      border-radius: 6px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .advisor-avatar {
+      width: 44px; height: 44px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .advisor-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .advisor-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── COUNTDOWN ── */
+    .countdown-block {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .countdown-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .countdown-timer {
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: 3px;
+    }
+    .countdown-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── SOCIAL SHARE ── */
+    .share-section {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 40px 60px;
+      text-align: center;
+    }
+    .share-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .share-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .share-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .share-btn:hover { transform: translateY(-2px); }
+    .share-wa  { background: #25D366; color: #fff; }
+    .share-li  { background: #0A66C2; color: #fff; }
+    .share-copy { background: var(--card); color: var(--text); border: 1px solid var(--border); cursor: pointer; border: none; font-family: var(--font-display); }
+
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 24px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--white); }
+    .footer-logo span { color: var(--orange); }
+    .footer-rera { font-size: 11px; color: #444; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeLeft {
+      from { opacity: 0; transform: translateX(30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── CONFETTI ── */
+    .confetti-piece {
+      position: fixed;
+      width: 8px; height: 8px;
+      top: -10px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    @keyframes confettiFall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .ty-inner { grid-template-columns: 1fr; gap: 40px; }
+      nav, .share-section, footer { padding: 14px 24px; }
+      .ty-hero { padding: 60px 24px; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+      .ty-actions { flex-direction: column; }
+      .btn-wa, .btn-back { text-align: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GTM NOSCRIPT -->
+  <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+
+  <nav>
+    <div class="logo">PRESTIGE <span>ONE</span></div>
+    <div style="font-size:13px;color:var(--muted);">Questions? <a href="tel:+917483736358" style="color:var(--orange);font-weight:600;">+91 74837 36358</a></div>
+  </nav>
+
+  <section class="ty-hero">
+    <div class="ty-grid-lines"></div>
+    <div class="ty-inner">
+
+      <!-- LEFT -->
+      <div class="ty-left">
+        <div class="ty-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+
+        <div class="ty-badge">
+          <svg width="10" height="10" fill="currentColor" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+          Site Visit Confirmed
+        </div>
+
+        <h1 class="ty-headline">
+          Your Smart<br/>
+          Decision<br/>
+          Starts <span class="acc">Now.</span>
+        </h1>
+
+        <p class="ty-subhead">
+          <strong>Thank you for taking the first step.</strong> Our advisor will call you within 2 hours on your WhatsApp number to confirm your site visit date and time.
+        </p>
+
+        <div class="next-steps">
+          <div class="next-steps-title">What Happens Next</div>
+          <ul class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Advisor Calls You Within 2 Hours</div>
+                <div class="step-desc">Our honest, no-pressure advisor confirms your preferred date, time, and any questions you'd like answered before your visit.</div>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">We Send You a Pre-Visit Briefing</div>
+                <div class="step-desc">You'll receive a WhatsApp message with project highlights, RERA details, location map, and what to expect during your visit.</div>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">Your Free 90-Minute Site Visit</div>
+                <div class="step-desc">Walk through model units, meet existing buyers, review appreciation data. Zero pressure. Zero obligation. Just clarity.</div>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">You Decide On Your Own Timeline</div>
+                <div class="step-desc">There is no sales team chasing you. You get all the facts, and you decide when you're ready — in days, weeks, or months.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ty-actions">
+          <a href="https://wa.me/917483736358?text=Hi%2C%20I%20just%20filled%20the%20site%20visit%20form%20for%20Prestige%20One%20Kokapet"
+             class="btn-wa" target="_blank" id="waConfirmBtn">
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M16.003 3C9.374 3 4 8.373 4 15.001c0 2.178.587 4.246 1.695 6.056L4 29l8.187-1.676A12.93 12.93 0 0016.003 28c6.628 0 12.001-5.373 12.001-12S22.631 3 16.003 3zm6.28 16.865c-.266.75-1.555 1.435-2.148 1.523-.548.08-1.237.113-1.995-.124-.46-.145-1.05-.338-1.81-.664-3.17-1.37-5.24-4.575-5.398-4.787-.156-.212-1.276-1.698-1.276-3.236s.81-2.296 1.096-2.607c.285-.31.623-.388.83-.388l.596.012c.19.009.447-.072.701.534.266.629.902 2.172.98 2.33.08.157.134.341.027.548-.107.206-.16.333-.315.513-.156.18-.327.403-.467.542-.157.156-.32.325-.138.637.183.312.812 1.338 1.743 2.168 1.198 1.068 2.208 1.397 2.52 1.553.312.155.494.13.676-.079.183-.208.782-.915.992-1.228.209-.312.418-.26.704-.156.286.104 1.82.858 2.132 1.014.313.156.52.234.596.364.077.13.077.751-.19 1.5z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <a href="index.html" class="btn-back">← Back to Project</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: CONFIRMATION CARD -->
+      <div>
+        <div class="ty-card">
+          <div class="ty-card-title">Your Request Summary</div>
+          <div class="ty-card-sub">Details submitted successfully. Check your WhatsApp.</div>
+
+          <div class="booked-row">
+            <span class="booked-label">Status</span>
+            <span class="booked-val highlight">✓ Confirmed</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">Project</span>
+            <span class="booked-val">Prestige One, Kokapet</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">Name</span>
+            <span class="booked-val" id="tyName">—</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">WhatsApp</span>
+            <span class="booked-val" id="tyPhone">—</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">Budget</span>
+            <span class="booked-val" id="tyBudget">—</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">Configuration</span>
+            <span class="booked-val" id="tyConfig">—</span>
+          </div>
+          <div class="booked-row">
+            <span class="booked-label">Submitted</span>
+            <span class="booked-val" id="tyTime">—</span>
+          </div>
+
+          <a href="tel:+917483736358" class="ty-card-cta">Call Us Now: +91 74837 36358</a>
+
+          <div class="advisor-block">
+            <div class="advisor-avatar">SK</div>
+            <div>
+              <div class="advisor-name">Srinivas Kumar</div>
+              <div class="advisor-role">Senior Property Advisor · 12 Years Experience</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="countdown-block">
+          <div class="countdown-label">Callback In</div>
+          <div class="countdown-timer" id="countdown">02:00:00</div>
+          <div class="countdown-sub">Our advisor will call you within this window</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHARE SECTION -->
+  <div class="share-section">
+    <div class="share-title">Know Someone Looking For A Home?</div>
+    <div class="share-sub">Share Prestige One Kokapet with friends and family who might benefit</div>
+    <div class="share-btns">
+      <a href="https://wa.me/?text=Check%20out%20Prestige%20One%20Kokapet%20-%20Premium%203BHK%20from%20%E2%82%B975L.%20Hyderabad%27s%20fastest%20growing%20corridor.%20https://vercel-test.sdmlabs.in"
+         class="share-btn share-wa" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="white"><path d="M16.003 3C9.374 3 4 8.373 4 15.001c0 2.178.587 4.246 1.695 6.056L4 29l8.187-1.676A12.93 12.93 0 0016.003 28c6.628 0 12.001-5.373 12.001-12S22.631 3 16.003 3z"/></svg>
+        Share on WhatsApp
+      </a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vercel-test.sdmlabs.in"
+         class="share-btn share-li" target="_blank">
+        Share on LinkedIn
+      </a>
+      <button class="share-btn share-copy" onclick="copyLink()">📋 Copy Link</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">PRESTIGE <span>ONE</span></div>
+    <div class="footer-rera">RERA Reg: P02400001234 · This is a marketing communication.</div>
+  </footer>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    // ── Read URL params passed from landing page form ──────────────
+    const params = new URLSearchParams(window.location.search);
+    const tyName   = params.get('name')   || sessionStorage.getItem('ty_name')   || '—';
+    const tyPhone  = params.get('phone')  || sessionStorage.getItem('ty_phone')  || '—';
+    const tyBudget = params.get('budget') || sessionStorage.getItem('ty_budget') || '—';
+    const tyConfig = params.get('config') || sessionStorage.getItem('ty_config') || '—';
+
+    // Budget label map
+    const budgetMap = {
+      '75L-1CR': '₹75L – ₹1 Crore',
+      '1CR-1.5CR': '₹1 – ₹1.5 Crore',
+      '1.5CR-2CR': '₹1.5 – ₹2 Crore',
+      '2CR+': '₹2 Crore+',
+      '': '—'
+    };
+    const configMap = { '3bhk': '3 BHK', '4bhk': '4 BHK', 'duplex': 'Duplex / Penthouse', '': '—' };
+
+    document.getElementById('tyName').textContent   = tyName;
+    document.getElementById('tyPhone').textContent  = tyPhone;
+    document.getElementById('tyBudget').textContent = budgetMap[tyBudget] || tyBudget || '—';
+    document.getElementById('tyConfig').textContent = configMap[tyConfig] || tyConfig || '—';
+
+    const now = new Date();
+    document.getElementById('tyTime').textContent =
+      now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ', ' +
+      now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    // ── GA4 / GTM: fire thank you page view + conversion event ──────
+    window.dataLayer.push({
+      event:       'thank_you_page_view',
+      lead_name:   tyName,
+      lead_phone:  tyPhone,
+      lead_budget: tyBudget,
+      lead_config: tyConfig,
+      form_source: params.get('source') || 'hero_form'
+    });
+
+    // Google Ads Conversion – uncomment after GTM/gTag setup
+    // gtag('event', 'conversion', { 'send_to': 'AW-XXXXXXXXX/XXXXXXXXXXXXX', 'value': 1.0, 'currency': 'INR' });
+
+    // ── WhatsApp CTA click tracking ─────────────────────────────────
+    document.getElementById('waConfirmBtn').addEventListener('click', () => {
+      window.dataLayer.push({ event: 'whatsapp_click', source: 'thankyou_page' });
+    });
+
+    // ── Countdown Timer (2 hours from page load) ────────────────────
+    let seconds = 2 * 60 * 60;
+    const timerEl = document.getElementById('countdown');
+    const tick = setInterval(() => {
+      if (seconds <= 0) { clearInterval(tick); timerEl.textContent = 'Calling Now...'; return; }
+      seconds--;
+      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      timerEl.textContent = `${h}:${m}:${s}`;
+    }, 1000);
+
+    // ── Copy link ───────────────────────────────────────────────────
+    function copyLink() {
+      navigator.clipboard.writeText('https://vercel-test.sdmlabs.in').then(() => {
+        const btn = event.target;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy Link', 2000);
+      });
+    }
+
+    // ── Confetti burst ──────────────────────────────────────────────
+    const colors = ['#F4611A','#FF7A35','#2ECC71','#F4D03F','#FFFFFF'];
+    for (let i = 0; i < 60; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration: ${1.5 + Math.random() * 2}s;
+        animation-delay: ${Math.random() * 1.5}s;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        width: ${6 + Math.random() * 6}px;
+        height: ${6 + Math.random() * 6}px;
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 5000);
+    }
+  </script>
+
+</body>
+</html>
