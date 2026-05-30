@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prestige One Kokapet – Premium 3BHK Flats | Hyderabad</title>
   <meta name="description" content="Prestige One Kokapet – Limited 3BHK flats in Hyderabad's fastest-appreciating corridor. Schedule your free site visit today." />
+  <meta name="theme-color" content="#F4611A" />
+  <!-- Preload LCP text element's font to eliminate render delay -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: non-blocking load to eliminate render-blocking resource -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500&display=swap" />
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" /></noscript>
 
   <!-- GTM placeholder – replace GTM-XXXXXXX with your GTM ID -->
   <!-- GTM HEAD TAG START -->
@@ -19,20 +25,17 @@
   <style>
     :root {
       --orange:    #F4611A;
-      --orange-dk: #D04E0D;
       --orange-lt: #FF7A35;
       --black:     #0D0D0D;
       --dark:      #181818;
       --card:      #1F1F1F;
       --border:    #2E2E2E;
       --text:      #E8E8E8;
-      --muted:     #9A9A9A;
+      --muted:     #B8B8B8;
       --white:     #FFFFFF;
-      --gold:      #C9A227;
       --green:     #2ECC71;
-
-      --font-display: 'Barlow Condensed', sans-serif;
-      --font-body:    'Barlow', sans-serif;
+      --font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+      --font-body:    'Barlow', Arial, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -331,7 +334,7 @@
       border-color: var(--orange);
     }
     .form-group select option { background: #111; }
-    .form-group input::placeholder { color: #444; }
+    .form-group input::placeholder { color: #666; }
     .form-submit {
       width: 100%;
       background: var(--orange);
@@ -355,7 +358,7 @@
     }
     .form-disclaimer {
       font-size: 11px;
-      color: #555;
+      color: #999;
       text-align: center;
       margin-top: 14px;
       line-height: 1.5;
@@ -392,6 +395,7 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.9);
+      will-change: transform;
     }
     .scroll-dot {
       display: inline-block;
@@ -916,7 +920,7 @@
       outline: none;
     }
     .cta-form-inline input:focus { border-color: var(--orange); }
-    .cta-form-inline input::placeholder { color: #444; }
+    .cta-form-inline input::placeholder { color: #666; }
     .cta-form-inline .btn-primary { white-space: nowrap; padding: 16px 32px; font-size: 16px; }
 
     /* ─── FOOTER ─────────────────────────────────── */
@@ -953,10 +957,10 @@
     .footer-links a:hover { color: var(--orange); }
     .footer-rera {
       font-size: 11px;
-      color: #444;
+      color: #888;
       text-align: right;
     }
-    .footer-rera strong { color: #666; }
+    .footer-rera strong { color: #aaa; }
 
     /* ─── WHATSAPP FLOAT ─────────────────────────── */
     .wa-float {
@@ -1038,7 +1042,9 @@
       .section, .highlights-section, .social-proof-section,
       .location-section, .faq-section, .cta-section { padding: 60px 24px; }
       nav { padding: 12px 20px; }
-      .hero-left { padding: 60px 24px 40px; }
+      /* Fix CLS: give hero explicit min-height so layout doesn't shift as content loads */
+      .hero { min-height: auto; }
+      .hero-left { padding: 60px 24px 40px; min-height: 520px; }
       .hero-right { padding: 0 24px 60px; }
       .hero-stats { gap: 24px; flex-wrap: wrap; }
       .pain-grid, .testimonials-grid,
@@ -1048,6 +1054,20 @@
       footer { flex-direction: column; text-align: center; }
       .footer-rera { text-align: center; }
       .hero-cta-group { flex-direction: column; align-items: flex-start; }
+      /* Reduce animation complexity on mobile for better performance */
+      .badge, .hero-headline, .hero-subhead, .hero-stats, .hero-cta-group {
+        animation-duration: 0.3s !important;
+      }
+      /* Prevent marquee from causing reflow on mobile */
+      .scroll-strip { overflow: hidden; contain: layout; }
+    }
+    /* Reduce motion for users who prefer it (accessibility + performance) */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -1055,6 +1075,9 @@
 
   <!-- GTM NOSCRIPT – place immediately after <body> opening tag -->
   <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+
+  <!-- Skip to main content (accessibility) -->
+  <a href="#main-content" style="position:absolute;left:-9999px;top:4px;z-index:9999;background:var(--orange);color:#fff;padding:8px 16px;font-weight:700;border-radius:4px;text-decoration:none;" onfocus="this.style.left='4px'" onblur="this.style.left='-9999px'">Skip to main content</a>
 
   <!-- ── TOP BAR ── -->
   <div class="topbar">
@@ -1065,13 +1088,14 @@
   </div>
 
   <!-- ── NAV ── -->
-  <nav>
+  <nav aria-label="Main navigation">
     <div class="logo">PRESTIGE <span>ONE</span></div>
-    <a href="#site-visit-form" class="nav-cta">Book Site Visit →</a>
+    <a href="#site-visit-form" class="nav-cta" aria-label="Book your free site visit">Book Site Visit →</a>
   </nav>
 
+  <main id="main-content">
   <!-- ── HERO ── -->
-  <section class="hero">
+  <section class="hero" aria-label="Hero - Prestige One Kokapet">
     <div class="hero-bg"></div>
     <div class="hero-grid-lines"></div>
 
@@ -1126,15 +1150,15 @@
         <form id="leadForm" novalidate>
           <div class="form-group">
             <label for="fname">Full Name</label>
-            <input type="text" id="fname" name="full_name" placeholder="Rahul Reddy" required />
+            <input type="text" id="fname" name="full_name" placeholder="Rahul Reddy" required aria-required="true" autocomplete="name" />
           </div>
           <div class="form-group">
             <label for="fphone">WhatsApp Number</label>
-            <input type="tel" id="fphone" name="phone" placeholder="+91 74837 36358" required />
+            <input type="tel" id="fphone" name="phone" placeholder="+91 74837 36358" required aria-required="true" autocomplete="tel" />
           </div>
           <div class="form-group">
             <label for="fbudget">Your Budget</label>
-            <select id="fbudget" name="budget">
+            <select id="fbudget" name="budget" aria-label="Select your budget range">
               <option value="">Select Budget Range</option>
               <option value="75L-1CR">₹75 Lakhs – ₹1 Crore</option>
               <option value="1CR-1.5CR">₹1 Crore – ₹1.5 Crore</option>
@@ -1144,14 +1168,14 @@
           </div>
           <div class="form-group">
             <label for="fconfig">Configuration</label>
-            <select id="fconfig" name="config">
+            <select id="fconfig" name="config" aria-label="Select flat configuration">
               <option value="">3BHK / 4BHK</option>
               <option value="3bhk">3 BHK</option>
               <option value="4bhk">4 BHK</option>
               <option value="duplex">Duplex / Penthouse</option>
             </select>
           </div>
-          <button type="submit" class="form-submit" id="formSubmitBtn">
+          <button type="submit" class="form-submit" id="formSubmitBtn" aria-label="Submit free site visit request">
             Book My Free Site Visit →
           </button>
         </form>
@@ -1209,7 +1233,7 @@
   </div>
 
   <!-- ── PAIN POINTS SECTION ── -->
-  <section class="section reveal">
+  <section class="section reveal" aria-label="Common buyer concerns answered">
     <div class="section-label">We Understand Your Hesitation</div>
     <h2 class="section-title">The Questions<br/><span class="acc">Every Buyer</span> Asks</h2>
     <p class="section-body">
@@ -1451,7 +1475,7 @@
   </section>
 
   <!-- ── FAQ ── -->
-  <section class="faq-section reveal">
+  <section class="faq-section reveal" id="faq" aria-label="Frequently asked questions">
     <div style="max-width:700px;">
       <div class="section-label">Frequently Asked Questions</div>
       <h2 class="section-title">Your Questions,<br/><span class="acc">Honestly</span> Answered</h2>
@@ -1499,12 +1523,14 @@
         <input type="tel" id="ctaPhone" placeholder="Enter your WhatsApp number" />
         <button class="btn-primary" onclick="submitCtaForm()">Get Callback Now →</button>
       </div>
-      <p style="font-size:12px;color:#444;margin-top:16px;">No spam. No pressure. Callback within 2 hours.</p>
+      <p style="font-size:12px;color:#888;margin-top:16px;">No spam. No pressure. Callback within 2 hours.</p>
     </div>
   </section>
 
+  </main><!-- /#main-content -->
+
   <!-- ── FOOTER ── -->
-  <footer>
+  <footer role="contentinfo">
     <div class="footer-logo">PRESTIGE <span>ONE</span></div>
     <ul class="footer-links">
       <li><a href="#site-visit-form">Book Site Visit</a></li>
@@ -1522,7 +1548,7 @@
   <div class="wa-float">
     <div class="wa-label">💬 Chat on WhatsApp</div>
     <a class="wa-btn" href="https://wa.me/917483736358?text=Hi%2C%20I%20want%20to%20book%20a%20free%20site%20visit%20for%20Prestige%20One%20Kokapet"
-       target="_blank" rel="noopener" id="whatsappBtn">
+       target="_blank" rel="noopener" id="whatsappBtn" aria-label="Chat with us on WhatsApp about Prestige One Kokapet">
       <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
         <path d="M16.003 3C9.374 3 4 8.373 4 15.001c0 2.178.587 4.246 1.695 6.056L4 29l8.187-1.676A12.93 12.93 0 0016.003 28c6.628 0 12.001-5.373 12.001-12S22.631 3 16.003 3zm6.28 16.865c-.266.75-1.555 1.435-2.148 1.523-.548.08-1.237.113-1.995-.124-.46-.145-1.05-.338-1.81-.664-3.17-1.37-5.24-4.575-5.398-4.787-.156-.212-1.276-1.698-1.276-3.236s.81-2.296 1.096-2.607c.285-.31.623-.388.83-.388l.596.012c.19.009.447-.072.701.534.266.629.902 2.172.98 2.33.08.157.134.341.027.548-.107.206-.16.333-.315.513-.156.18-.327.403-.467.542-.157.156-.32.325-.138.637.183.312.812 1.338 1.743 2.168 1.198 1.068 2.208 1.397 2.52 1.553.312.155.494.13.676-.079.183-.208.782-.915.992-1.228.209-.312.418-.26.704-.156.286.104 1.82.858 2.132 1.014.313.156.52.234.596.364.077.13.077.751-.19 1.5z"/>
       </svg>
