@@ -1,0 +1,10 @@
+# Test domain — kept out of organic search.
+# AdsBot must stay allowed or Google Ads cannot check the landing page.
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+User-agent: *
+Disallow: /
