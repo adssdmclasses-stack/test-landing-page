@@ -41,11 +41,28 @@ lakshyha-academy/
 ├── class-10-tuition-near-me-bhopal.html        ← generated
 ├── class-10-crash-course-bhopal.html           ← generated
 ├── thank-you.html   privacy.html   terms.html
-├── assets/config.js            ← *** EDIT PHONE / IDs HERE ***
-├── assets/styles.css   assets/app.js
+├── assets/config.js            ← *** EDIT PHONE / IDs HERE *** (source, inlined at build)
+├── assets/styles.css   assets/app.js   ← source, inlined at build
 ├── apps-script/Code.gs         ← Google Sheet lead endpoint
 ├── vercel.json   robots.txt   sitemap.xml   ← robots + sitemap are generated
 ```
+
+### Self-contained pages (why nothing is linked from /assets/)
+
+`SITE["inline_assets"] = True`, so `generate.py` writes the CSS and JS **into
+every .html file**. Each page works on its own — if the `assets/` folder never
+makes it to the server, the page still renders and the form still works.
+
+You keep editing `assets/styles.css`, `assets/app.js` and `assets/config.js` as
+normal. They are the source; the build copies them in. Re-run `generate.py`
+after any change to them, or the deployed pages keep the old version.
+
+Set `inline_assets` to `False` if you'd rather link them externally (needs the
+`assets/` folder present at the deployed root, and gives shared browser caching
+across the seven pages).
+
+The one thing still loaded externally is the GTB click-capture script, which is
+commented out until you add the file.
 
 ### How to change page copy
 
@@ -177,7 +194,24 @@ Run the 29-check pre-launch audit before go-live. No campaign changes for 30 day
 
 ---
 
-## 7. Pre-launch checklist
+## 7. If a page renders as plain text
+
+Unstyled page, no phone number in the header, countdown stuck on `—`, blank
+address: that is not a CSS bug. It means the browser got the HTML but nothing
+else. Check in this order:
+
+1. Open `/assets/styles.css` on the live domain. A 404 means the folder isn't
+   deployed. With `inline_assets = True` this can't happen — re-run
+   `generate.py` and push the regenerated `.html` files.
+2. **Vercel → Settings → Build & Deployment → Root Directory** must be empty or
+   `./`. If the repo has everything inside a `lakshyha-academy/` folder, either
+   set Root Directory to that folder or move the files up to the repo root.
+3. If you uploaded through the GitHub web UI, check the repo actually shows an
+   `assets/` folder. Drag-and-drop often drops folders silently. `git push` from
+   the command line is safer.
+4. Case matters on Vercel. `Assets/` is not `assets/`.
+
+## 8. Pre-launch checklist
 
 - [ ] Every `__` and `[Replace ...]` gone from all seven pages
 - [ ] Phone tested on a real mobile (tap-to-call works)
@@ -188,3 +222,4 @@ Run the 29-check pre-launch audit before go-live. No campaign changes for 30 day
 - [ ] `robots.txt` allows AdsBot (check at `/robots.txt` after deploy)
 - [ ] Auto-tagging ON in the Ads account
 - [ ] Ad headline matches the H1 promise on the page it lands on
+- [ ] Page renders styled on the live URL, not just locally

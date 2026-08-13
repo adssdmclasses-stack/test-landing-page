@@ -14,6 +14,25 @@ them directly, no build step needed on their side.
 import os, re, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "build", "src")
+
+
+def _asset(name):
+    with open(os.path.join(ROOT, "assets", name), encoding="utf-8") as f:
+        return f.read()
+
+
+def asset_blocks():
+    """Return (css_block, js_block) as either inline tags or external links."""
+    if SITE.get("inline_assets"):
+        css = "<style>\n" + _asset("styles.css") + "\n</style>"
+        js = ("<script>\n" + _asset("config.js") + "\n</script>\n"
+              "<script>\n" + _asset("app.js") + "\n</script>")
+    else:
+        css = '<link rel="stylesheet" href="/assets/styles.css">'
+        js = ('<script src="/assets/config.js"></script>\n'
+              '<script src="/assets/app.js"></script>')
+    return css, js
 
 # =====================================================================
 # SITE
@@ -25,6 +44,15 @@ SITE = {
     # client's real site. Google Ads serves noindex pages without any issue.
     # Flip to False the day you move to the client's own domain.
     "noindex": True,
+
+    # TRUE  = CSS and JS are written straight into every .html file.
+    #         Each page is then completely self-contained: nothing breaks if the
+    #         /assets/ folder fails to upload, and there are two fewer requests.
+    #         You still edit assets/styles.css and assets/app.js as normal —
+    #         this only controls how they get delivered.
+    # FALSE = pages link to /assets/*.css and /assets/*.js (needs the folder
+    #         to be present at the deployed root).
+    "inline_assets": True,
 }
 
 # =====================================================================
@@ -433,7 +461,7 @@ TEMPLATE = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css">
+{css_block}
 
 <!-- GOOGLE TAG MANAGER -->
 <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});
@@ -612,8 +640,7 @@ j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefo
 {{"@context":"https://schema.org","@type":"EducationalOrganization","name":"Lakshyha Academy","description":"{desc}","url":"{domain}{path}","areaServed":"Bhopal, Madhya Pradesh","address":{{"@type":"PostalAddress","addressLocality":"Bhopal","addressRegion":"MP","addressCountry":"IN"}}}}
 </script>
 
-<script src="/assets/config.js"></script>
-<script src="/assets/app.js"></script>
+{js_block}
 </body>
 </html>
 """
@@ -621,6 +648,7 @@ j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefo
 
 def build():
     robots = "noindex,nofollow" if SITE["noindex"] else "index,follow"
+    css_block, js_block = asset_blocks()
     written = []
     for p in PAGES:
         html = TEMPLATE.format(
@@ -632,12 +660,27 @@ def build():
             proof=PROOF_STRIP, focus=p["focus"], how=HOW_WE_TEACH,
             subjects=SUBJECTS, fees=FEES, quotes=QUOTES,
             faq_extra=p["faq_extra"], faq_base=FAQ_BASE,
+            css_block=css_block, js_block=js_block,
         )
         out = os.path.join(ROOT, p["slug"] + ".html")
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
         written.append(p)
         print("  wrote", p["slug"] + ".html", "->", p["path"])
+
+    # side pages (privacy / terms / thank-you) from build/src
+    for name in ("privacy.html", "terms.html", "thank-you.html"):
+        src = os.path.join(SRC, name)
+        if not os.path.exists(src):
+            continue
+        with open(src, encoding="utf-8") as f:
+            html = f.read()
+        html = html.replace("<!--CSS_BLOCK-->", css_block)
+        html = html.replace("<!--JS_BLOCK-->", js_block)
+        html = html.replace("GTM-XXXXXXX", SITE["gtm"])
+        with open(os.path.join(ROOT, name), "w", encoding="utf-8") as f:
+            f.write(html)
+        print("  wrote", name)
 
     # sitemap
     today = datetime.date.today().isoformat()
@@ -668,6 +711,7 @@ def build():
     print("  wrote robots.txt (noindex=%s)" % SITE["noindex"])
 
     print("\nDone. %d landing pages built for %s" % (len(written), SITE["domain"]))
+    print("Assets inlined: %s" % bool(SITE.get("inline_assets")))
 
 
 if __name__ == "__main__":

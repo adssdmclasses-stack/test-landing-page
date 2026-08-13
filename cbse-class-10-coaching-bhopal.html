@@ -15,7 +15,331 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css">
+<style>
+/* =========================================================
+   Lakshyha Academy — Bhopal
+   Direction: green classroom blackboard + chalk + marigold.
+   Grounded in the room the student actually sits in.
+   ========================================================= */
+
+:root{
+  --ink:      #0E2A26;
+  --ink-2:    #143A34;
+  --ink-3:    #1B4A42;
+  --chalk:    #F4F6F1;
+  --chalk-dim:rgba(244,246,241,.66);
+  --marigold: #E9A13B;
+  --marigold-d:#C9821F;
+  --vermilion:#C4402C;
+  --paper:    #FBFAF6;
+  --paper-2:  #F2EFE6;
+  --rule:     #DDD8C9;
+  --text:     #17211F;
+  --text-dim: #5A635F;
+
+  --display: "Bricolage Grotesque", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Noto Sans Devanagari", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --wrap: 1140px;
+  --r: 4px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--text);
+  font-family:var(--body);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 22px}
+
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.04;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(2.1rem,5.4vw,3.9rem)}
+h2{font-size:clamp(1.65rem,3.6vw,2.6rem)}
+h3{font-size:1.12rem;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.hi{font-family:"Noto Sans Devanagari",var(--body)}
+
+/* ---------- eyebrow: a chalk-underlined label ---------- */
+.eyebrow{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--marigold-d);
+  display:inline-block;margin-bottom:14px;
+}
+.on-board .eyebrow{color:var(--marigold)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--display);font-weight:700;font-size:1.02rem;
+  padding:15px 26px;border-radius:var(--r);border:2px solid transparent;
+  text-decoration:none;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;
+  width:100%;justify-content:center;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--marigold);color:#231603;box-shadow:0 3px 0 var(--marigold-d)}
+.btn-primary:hover{box-shadow:0 5px 0 var(--marigold-d)}
+.btn-call{background:var(--vermilion);color:#fff;box-shadow:0 3px 0 #94301f}
+.btn-ghost{border-color:var(--chalk-dim);color:var(--chalk)}
+.btn-ghost:hover{background:rgba(244,246,241,.08)}
+@media(min-width:560px){.btn{width:auto}}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+.topbar{
+  background:var(--ink);color:var(--chalk);
+  border-bottom:1px solid rgba(244,246,241,.14);
+  position:sticky;top:0;z-index:60;
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none}
+.brand b{font-family:var(--display);font-size:1.32rem;letter-spacing:-.02em}
+.brand span{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;color:var(--marigold);text-transform:uppercase}
+.topbar-call{
+  display:flex;align-items:center;gap:8px;text-decoration:none;
+  font-family:var(--mono);font-size:.95rem;font-weight:600;
+  color:var(--chalk);border:1px solid var(--chalk-dim);
+  padding:9px 15px;border-radius:var(--r);white-space:nowrap;
+}
+.topbar-call:hover{background:var(--marigold);color:#231603;border-color:var(--marigold)}
+.topbar-call .lbl{display:none}
+@media(min-width:760px){.topbar-call .lbl{display:inline}}
+
+/* =========================================================
+   HERO — the blackboard
+   ========================================================= */
+.hero{
+  background:
+    radial-gradient(120% 90% at 12% 0%, var(--ink-3) 0%, transparent 55%),
+    radial-gradient(90% 70% at 88% 100%, #10322C 0%, transparent 60%),
+    var(--ink);
+  color:var(--chalk);position:relative;overflow:hidden;
+  padding:52px 0 60px;
+}
+/* faint chalk dust + ruled feel, no images needed */
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(180deg,rgba(244,246,241,.045) 0 1px,transparent 1px 46px);
+  mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);
+}
+.hero-grid{display:grid;gap:40px;position:relative}
+@media(min-width:980px){.hero-grid{grid-template-columns:1.08fr .92fr;gap:56px;align-items:start}}
+
+.hero h1{margin-bottom:16px}
+.hero h1 em{
+  font-style:normal;color:var(--marigold);
+  /* chalk underline that looks hand-drawn */
+  border-bottom:3px solid rgba(233,161,59,.45);
+  padding-bottom:2px;
+}
+.hero-sub{font-size:1.1rem;color:var(--chalk-dim);max-width:33em;margin-bottom:24px}
+
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;padding:0;list-style:none}
+.pills li{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;
+  border:1px solid rgba(244,246,241,.28);border-radius:100px;
+  padding:6px 13px;color:var(--chalk);
+}
+
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- SIGNATURE: the countdown board ---------- */
+.countdown{
+  margin-top:38px;border-top:1px solid rgba(244,246,241,.2);padding-top:22px;
+}
+.countdown-label{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--chalk-dim);margin-bottom:12px;
+}
+.cd-row{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.cd-big{
+  font-family:var(--mono);font-weight:600;
+  font-size:clamp(3.4rem,11vw,5.6rem);line-height:.86;
+  color:var(--chalk);letter-spacing:-.04em;
+  text-shadow:0 0 22px rgba(244,246,241,.18);
+}
+.cd-unit{font-family:var(--display);font-size:1.15rem;color:var(--marigold);padding-bottom:8px}
+.cd-note{font-size:.92rem;color:var(--chalk-dim);max-width:26em;padding-bottom:6px}
+.cd-track{
+  display:flex;gap:3px;margin-top:20px;height:9px;
+}
+.cd-track i{flex:1;background:rgba(244,246,241,.16);border-radius:2px}
+.cd-track i.done{background:var(--marigold)}
+
+/* ---------- FORM CARD ---------- */
+.card{
+  background:var(--paper);color:var(--text);
+  border-radius:6px;padding:26px 22px;
+  box-shadow:0 18px 40px rgba(0,0,0,.32);
+  border-top:5px solid var(--marigold);
+}
+.card h2{font-size:1.5rem;margin-bottom:6px}
+.card .card-sub{font-size:.94rem;color:var(--text-dim);margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{
+  display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;
+}
+.field input,.field select{
+  width:100%;font:inherit;font-size:1rem;padding:12px 13px;
+  background:#fff;border:1.5px solid var(--rule);border-radius:var(--r);color:var(--text);
+}
+.field input:focus,.field select:focus{outline:none;border-color:var(--ink-2);box-shadow:0 0 0 3px rgba(20,58,52,.14)}
+.field .err{display:none;color:var(--vermilion);font-size:.82rem;margin-top:5px}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid select{border-color:var(--vermilion)}
+.consent{display:flex;gap:9px;align-items:flex-start;font-size:.8rem;color:var(--text-dim);margin:4px 0 16px}
+.consent input{margin-top:3px;flex:0 0 auto;width:16px;height:16px}
+.form-msg{display:none;font-size:.92rem;padding:11px 13px;border-radius:var(--r);margin-bottom:14px}
+.form-msg.show{display:block}
+.form-msg.bad{background:#FBE9E6;color:#8E2A1B}
+.card-alt{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);
+  font-size:.86rem;color:var(--text-dim);text-align:center;
+}
+.card-alt a{color:var(--ink-2);font-weight:600}
+
+/* =========================================================
+   PROOF STRIP
+   ========================================================= */
+.strip{background:var(--ink-2);color:var(--chalk);border-top:1px solid rgba(244,246,241,.1)}
+.strip .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:1px 0;padding:0 22px}
+@media(min-width:820px){.strip .wrap{grid-template-columns:repeat(4,1fr)}}
+.stat{padding:26px 6px 24px;position:relative}
+.stat + .stat::before{
+  content:"";position:absolute;left:-1px;top:22px;bottom:22px;width:1px;background:rgba(244,246,241,.16);
+}
+.stat b{display:block;font-family:var(--mono);font-size:1.9rem;font-weight:600;color:var(--marigold);letter-spacing:-.03em}
+.stat span{display:block;font-size:.86rem;color:var(--chalk-dim);margin-top:4px;max-width:15em}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+.sec{padding:66px 0}
+.sec-alt{background:var(--paper-2)}
+.sec-head{max-width:34em;margin-bottom:38px}
+.sec-head p{color:var(--text-dim);margin-top:12px;margin-bottom:0}
+
+/* what you get */
+.grid-3{display:grid;gap:18px}
+@media(min-width:700px){.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+.tile{
+  background:#fff;border:1px solid var(--rule);border-radius:6px;padding:22px 20px;
+}
+.tile .tag{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--marigold-d);display:block;margin-bottom:10px;
+}
+.tile h3{margin-bottom:7px}
+.tile p{font-size:.94rem;color:var(--text-dim);margin:0}
+
+/* subject ledger — ruled register, numbering is real (5 board subjects) */
+.ledger{border-top:2px solid var(--ink);background:#fff}
+.ledger-row{
+  display:grid;grid-template-columns:44px 1fr;gap:14px;
+  padding:16px 4px;border-bottom:1px solid var(--rule);align-items:baseline;
+}
+@media(min-width:780px){.ledger-row{grid-template-columns:44px 210px 1fr;gap:20px}}
+.ledger-row .n{font-family:var(--mono);font-size:.9rem;color:var(--marigold-d)}
+.ledger-row h3{font-size:1.05rem}
+.ledger-row p{font-size:.92rem;color:var(--text-dim);margin:5px 0 0;grid-column:2/-1}
+@media(min-width:780px){.ledger-row p{grid-column:3/4;margin:0}}
+
+/* fees table */
+.table-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--rule);font-size:.95rem}
+th{
+  background:var(--ink);color:var(--chalk);font-family:var(--mono);
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+}
+td b{font-family:var(--mono);font-size:1rem}
+tr:last-child td{border-bottom:none}
+.fee-note{font-size:.86rem;color:var(--text-dim);margin-top:12px}
+
+/* faculty / testimonial */
+.quotes{display:grid;gap:18px}
+@media(min-width:820px){.quotes{grid-template-columns:repeat(3,1fr)}}
+.quote{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--marigold);border-radius:6px;padding:22px 20px}
+.quote p{font-size:.97rem;margin-bottom:14px}
+.quote footer{font-size:.84rem;color:var(--text-dim)}
+.quote footer b{display:block;color:var(--text);font-size:.92rem}
+
+/* faq */
+details{background:#fff;border:1px solid var(--rule);border-radius:6px;margin-bottom:10px}
+summary{
+  cursor:pointer;padding:16px 18px;font-family:var(--display);font-weight:700;font-size:1.03rem;
+  list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);color:var(--marigold-d);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{padding:0 18px 17px;margin:0;font-size:.95rem;color:var(--text-dim)}
+
+/* closing CTA */
+.close-cta{background:var(--ink);color:var(--chalk);padding:66px 0}
+.close-grid{display:grid;gap:36px}
+@media(min-width:980px){.close-grid{grid-template-columns:1fr .82fr;gap:56px;align-items:center}}
+.close-cta h2{margin-bottom:14px}
+.close-cta p{color:var(--chalk-dim)}
+.addr{font-family:var(--mono);font-size:.9rem;line-height:1.8;color:var(--chalk-dim);margin-top:20px}
+.addr a{color:var(--marigold)}
+
+/* footer */
+footer.site{background:#0A1F1C;color:var(--chalk-dim);padding:30px 0 96px;font-size:.85rem}
+footer.site .wrap{display:flex;flex-wrap:wrap;gap:12px 22px;justify-content:space-between}
+footer.site a{color:var(--chalk-dim);text-decoration:underline}
+@media(min-width:760px){footer.site{padding-bottom:34px}}
+
+/* sticky mobile action bar */
+.mobile-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(14,42,38,.96);backdrop-filter:blur(6px);
+  border-top:1px solid rgba(244,246,241,.16);
+}
+.mobile-bar a{
+  padding:15px 8px;text-align:center;text-decoration:none;
+  font-family:var(--display);font-weight:700;font-size:.98rem;
+}
+.mobile-bar .m-call{background:var(--vermilion);color:#fff}
+.mobile-bar .m-form{background:var(--marigold);color:#231603}
+@media(min-width:760px){.mobile-bar{display:none}}
+
+/* a11y */
+:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* simple content pages (privacy / terms / thank-you) */
+.doc{max-width:760px;margin:0 auto;padding:52px 22px 80px}
+.doc h1{margin-bottom:8px}
+.doc h2{font-size:1.3rem;margin:34px 0 10px}
+.doc p,.doc li{color:var(--text-dim);font-size:.97rem}
+.doc .meta{font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--marigold-d);margin-bottom:26px}
+.ty{text-align:center;padding:88px 22px}
+.ty .tick{
+  width:66px;height:66px;border-radius:50%;background:var(--marigold);
+  display:grid;place-items:center;margin:0 auto 22px;font-size:2rem;color:#231603;
+}
+
+/* ---------- linkable tiles (hub page) ---------- */
+a.tile-link{text-decoration:none;display:block;transition:border-color .14s ease,transform .14s ease}
+a.tile-link:hover{border-color:var(--marigold);transform:translateY(-2px)}
+a.tile-link h3::after{content:" →";color:var(--marigold-d)}
+
+/* ---------- footer page nav ---------- */
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 16px;order:3;width:100%}
+@media(min-width:900px){.foot-nav{order:0;width:auto;max-width:52%;justify-content:center}}
+.foot-nav a{text-decoration:none;font-size:.82rem}
+.foot-nav a:hover{color:var(--marigold);text-decoration:underline}
+
+</style>
 
 <!-- GOOGLE TAG MANAGER -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
@@ -317,7 +641,264 @@ j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefo
 {"@context":"https://schema.org","@type":"EducationalOrganization","name":"Lakshyha Academy","description":"CBSE Class 10 coaching in Bhopal. Separate CBSE batch covering NCERT and exemplar problems, competency-based questions and internal assessment support. Free demo class.","url":"https://vercel-test.sdmlabs.in/cbse-class-10-coaching-bhopal","areaServed":"Bhopal, Madhya Pradesh","address":{"@type":"PostalAddress","addressLocality":"Bhopal","addressRegion":"MP","addressCountry":"IN"}}
 </script>
 
-<script src="/assets/config.js"></script>
-<script src="/assets/app.js"></script>
+<script>
+/* =============================================================
+   LAKSHYHA ACADEMY — LANDING PAGE CONFIG
+   This is the ONLY file you need to edit for launch.
+   Everything below is injected into the page at runtime.
+   ============================================================= */
+
+window.LA_CONFIG = {
+
+  /* ---------- 1. CONTACT (required) ---------- */
+  phoneDisplay: "+91 XXXXX XXXXX",        // shown on the page
+  phoneDial:    "+91XXXXXXXXXX",          // tel: link, no spaces
+  whatsapp:     "91XXXXXXXXXX",           // wa.me number, country code, no +
+  email:        "admissions@lakshyhaacademy.com",
+
+  /* ---------- 2. CENTRE ---------- */
+  centreName:   "Lakshyha Academy",
+  addressLine1: "Shop No. __, __________ Complex",
+  addressLine2: "____________, Bhopal, Madhya Pradesh 462___",
+  mapsUrl:      "https://maps.google.com/?q=Lakshyha+Academy+Bhopal",
+
+  /* ---------- 3. BOARD EXAM COUNTDOWN (hero signature) ---------- */
+  // Set to the first paper date of the coming Class 10 board exam.
+  // MP Board 10th usually starts in the first week of February.
+  examDate:  "2027-02-05T09:00:00+05:30",
+  examLabel: "MP Board Class 10 — first paper",
+
+  /* ---------- 4. LEAD DESTINATION ---------- */
+  // Google Apps Script Web App URL (deploy as: Execute as ME, Access ANYONE).
+  // Leave blank and the form falls back to WhatsApp handoff.
+  formEndpoint: "",
+
+  // Page the user lands on after a successful submit (conversion page).
+  thankYouUrl: "/thank-you.html",
+
+  /* ---------- 5. TRACKING ---------- */
+  gtmId: "GTM-XXXXXXX",                   // also paste into index.html <head>
+
+  // Google Ads conversion actions. Fill from Ads > Goals > Conversions.
+  // These fire only if you are NOT routing everything through GTM.
+  adsConversionId: "AW-XXXXXXXXXX",
+  conversionLabels: {
+    formSubmit: "XXXXXXXXXXXXXXXXXX",     // "Demo Booking" conversion label
+    callClick:  "XXXXXXXXXXXXXXXXXX",     // "Phone Call Click" conversion label
+    whatsapp:   "XXXXXXXXXXXXXXXXXX"      // "WhatsApp Click" conversion label
+  },
+
+  /* ---------- 6. FEES / BATCHES (edit the table in index.html too) ---------- */
+  feeNote: "One-time registration ₹___ · Instalment option available"
+};
+
+</script>
+<script>
+/* Lakshyha Academy — landing page logic
+   Injects config, runs the exam countdown, validates + submits the lead,
+   and pushes dataLayer events for GTM / Google Ads conversions. */
+
+(function () {
+  "use strict";
+  var C = window.LA_CONFIG || {};
+  var dl = (window.dataLayer = window.dataLayer || []);
+
+  /* ---------- helpers ---------- */
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function push(name, extra) { dl.push(Object.assign({ event: name }, extra || {})); }
+  function variant() { var el = document.getElementById("page_variant"); return el ? el.value : "unknown"; }
+
+  /* Optional direct gtag fallback if you are not using GTM for conversions. */
+  function adsConversion(labelKey) {
+    var id = C.adsConversionId, lab = (C.conversionLabels || {})[labelKey];
+    if (typeof gtag === "function" && id && lab && id.indexOf("X") === -1) {
+      gtag("event", "conversion", { send_to: id + "/" + lab });
+    }
+  }
+
+  /* ---------- 1. inject contact details everywhere ---------- */
+  var tel = "tel:" + (C.phoneDial || "");
+  var wa = "https://wa.me/" + (C.whatsapp || "") +
+    "?text=" + encodeURIComponent("Hi, I want details about Class 10 coaching at Lakshyha Academy, Bhopal.");
+
+  $$("[data-call]").forEach(function (a) {
+    a.setAttribute("href", tel);
+    a.addEventListener("click", function () {
+      push("gtb_call_click", { link_url: tel, page_variant: variant() });
+      adsConversion("callClick");
+    });
+  });
+  $$("[data-phone-text]").forEach(function (n) { n.textContent = C.phoneDisplay || ""; });
+
+  $$("[data-whatsapp]").forEach(function (a) {
+    a.setAttribute("href", wa);
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener");
+    a.addEventListener("click", function () {
+      push("gtb_whatsapp_click", { page_variant: variant() });
+      adsConversion("whatsapp");
+    });
+  });
+
+  $$("[data-maps]").forEach(function (a) {
+    a.setAttribute("href", C.mapsUrl || "#");
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener");
+  });
+
+  var addr = (C.addressLine1 || "") + ", " + (C.addressLine2 || "");
+  $$("[data-address1]").forEach(function (n) { n.textContent = C.addressLine1 || ""; });
+  $$("[data-address2]").forEach(function (n) { n.textContent = C.addressLine2 || ""; });
+  $$("[data-address-inline]").forEach(function (n) { n.textContent = addr; });
+  $$("[data-fee-note]").forEach(function (n) { if (C.feeNote) n.textContent = C.feeNote; });
+  $$("[data-year]").forEach(function (n) { n.textContent = new Date().getFullYear(); });
+
+  /* ---------- 2. exam countdown (hero signature) ---------- */
+  (function countdown() {
+    var big = $("[data-cd-days]"); if (!big) return;
+    var exam = new Date(C.examDate || "");
+    if (isNaN(exam.getTime())) { big.textContent = "—"; return; }
+
+    var ms = exam - new Date();
+    var days = Math.max(0, Math.ceil(ms / 86400000));
+    var weeks = Math.max(0, Math.floor(days / 7));
+
+    big.textContent = days;
+    var w = $("[data-cd-weeks]"); if (w) w.textContent = weeks;
+    var lbl = $("[data-cd-label]");
+    if (lbl && C.examLabel) lbl.textContent = "Time left until " + C.examLabel;
+
+    /* track: 40 segments across a 12-month prep year, filled = time already gone */
+    var track = $("[data-cd-track]"); if (!track) return;
+    var total = 365, gone = Math.min(40, Math.round(((total - days) / total) * 40));
+    for (var i = 0; i < 40; i++) {
+      var seg = document.createElement("i");
+      if (i < gone) seg.className = "done";
+      track.appendChild(seg);
+    }
+  })();
+
+  /* ---------- 3. lead form ---------- */
+  var form = $("#lead-form");
+  if (!form) return;
+
+  var msg = $("[data-form-msg]");
+  var btn = $("[data-submit]");
+  var startedTracked = false;
+
+  form.addEventListener("input", function () {
+    if (!startedTracked) { push("gtb_form_start"); startedTracked = true; }
+  }, { once: false });
+
+  /* keep the phone field numeric, 10 digits */
+  var phoneEl = $("#phone");
+  phoneEl.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
+  });
+
+  function setErr(el, bad, text) {
+    var f = el.closest(".field");
+    if (!f) return;
+    f.classList.toggle("invalid", bad);
+    if (text) { var e = $(".err", f); if (e) e.textContent = text; }
+  }
+
+  function validate() {
+    var ok = true;
+
+    var name = $("#name");
+    var nameBad = name.value.trim().length < 2;
+    setErr(name, nameBad); if (nameBad) ok = false;
+
+    var phoneBad = !/^[6-9]\d{9}$/.test(phoneEl.value);
+    setErr(phoneEl, phoneBad, "Enter a valid 10-digit Indian mobile number.");
+    if (phoneBad) ok = false;
+
+    var email = $("#email");
+    var emailBad = email.value.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
+    setErr(email, emailBad); if (emailBad) ok = false;
+
+    var board = $("#board");
+    var boardBad = !board.value;
+    setErr(board, boardBad); if (boardBad) ok = false;
+
+    var consent = $("#consent");
+    if (!consent.checked) {
+      ok = false;
+      show("Please tick the consent box so we can call you back.", "bad");
+    }
+    return ok;
+  }
+
+  function show(text, kind) {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = "form-msg show " + (kind || "");
+  }
+  function hide() { if (msg) msg.className = "form-msg"; }
+
+  /* fill the GTB hidden fields.
+     If the blueprint's click-capture script is loaded it owns these
+     (window.GTB auto-populates). This is only a fallback so the fields
+     are never empty in the sheet. */
+  function fillHidden() {
+    var p = new URLSearchParams(location.search);
+    function set(id, val) { var el = document.getElementById(id); if (el && !el.value && val) el.value = val; }
+    ["gclid", "gbraid", "wbraid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
+      .forEach(function (k) { set(k, p.get(k) || ""); });
+    set("page_url", location.href);
+    set("submitted_at", new Date().toISOString());
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    hide();
+    if (!validate()) return;
+    fillHidden();
+
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = v; });
+    data.consent = $("#consent").checked ? "yes" : "no";
+
+    push("gtb_form_submit", {
+      form_name: "class10_demo_booking",
+      page_variant: data.page_variant || "",
+      board: data.board || "",
+      area: data.area || ""
+    });
+    adsConversion("formSubmit");
+
+    var done = function () { location.href = C.thankYouUrl || "/thank-you.html"; };
+
+    /* No endpoint configured yet → hand off to WhatsApp so leads are never lost. */
+    if (!C.formEndpoint) {
+      var text = "New demo booking request\n" +
+        "Name: " + (data.name || "") + "\n" +
+        "Phone: " + (data.phone || "") + "\n" +
+        "Board: " + (data.board || "") + "\n" +
+        "Area: " + (data.area || "");
+      window.open("https://wa.me/" + (C.whatsapp || "") + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+      done();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Booking…";
+
+    fetch(C.formEndpoint, {
+      method: "POST",
+      mode: "no-cors",                       // Apps Script web app
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data)
+    }).then(done).catch(function () {
+      btn.disabled = false;
+      btn.textContent = "Book my free demo class";
+      show("Could not submit just now. Please call us instead — we'll book the slot on the phone.", "bad");
+    });
+  });
+})();
+
+</script>
 </body>
 </html>
