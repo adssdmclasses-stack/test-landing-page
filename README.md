@@ -1,225 +1,120 @@
-# Lakshyha Academy — Class 10 Coaching Landing Pages (Bhopal)
+# SDM Real Estate — static website
 
-Static site. No build step on Vercel — push to GitHub, import, done.
-Live at **https://vercel-test.sdmlabs.in**
-
----
-
-## URL map → ad group
-
-One page per ad group. Keep it that way; a shared page across ad groups is the
-main reason Quality Score drops on coaching accounts.
-
-| URL | Ad group | Keyword theme |
-|---|---|---|
-| `/` | Brand / broad | lakshyha academy, coaching classes bhopal |
-| `/10th-class-coaching-bhopal` | Core | 10th class coaching bhopal, class 10 coaching near me |
-| `/mp-board-10th-coaching-bhopal` | MP Board | mp board 10th coaching, mpbse class 10 tuition |
-| `/cbse-class-10-coaching-bhopal` | CBSE | cbse class 10 coaching bhopal, cbse 10th tuition |
-| `/class-10-maths-science-coaching-bhopal` | Subject | class 10 maths coaching, science tuition for 10th |
-| `/class-10-tuition-near-me-bhopal` | Location / near me | 10th tuition near me, class 10 tuition bhopal timings |
-| `/class-10-crash-course-bhopal` | Crash course | 10th crash course, board exam preparation classes |
-
-`cleanUrls` is on, so `10th-class-coaching-bhopal.html` serves at
-`/10th-class-coaching-bhopal`. Use the clean URL as the Final URL in Ads.
-
-Short vanity paths are redirected for offline use (pamphlets, WhatsApp forwards):
-`/mp-board`, `/cbse`, `/crash-course`, `/near-me`, `/maths-science`.
-
----
+Six-page static site. No build step, no dependencies. Drop the folder into a repo and turn on GitHub Pages.
 
 ## Files
 
 ```
-lakshyha-academy/
-├── build/generate.py           ← *** EDIT COPY HERE, then re-run ***
-├── index.html                                  ← generated
-├── 10th-class-coaching-bhopal.html             ← generated
-├── mp-board-10th-coaching-bhopal.html          ← generated
-├── cbse-class-10-coaching-bhopal.html          ← generated
-├── class-10-maths-science-coaching-bhopal.html  ← generated
-├── class-10-tuition-near-me-bhopal.html        ← generated
-├── class-10-crash-course-bhopal.html           ← generated
-├── thank-you.html   privacy.html   terms.html
-├── assets/config.js            ← *** EDIT PHONE / IDs HERE *** (source, inlined at build)
-├── assets/styles.css   assets/app.js   ← source, inlined at build
-├── apps-script/Code.gs         ← Google Sheet lead endpoint
-├── vercel.json   robots.txt   sitemap.xml   ← robots + sitemap are generated
+index.html      Home
+about.html      About us
+services.html   Services + fee table
+coverage.html   Service areas (map embed placeholder)
+contact.html    Contact + enquiry form
+faq.html        FAQ + FAQPage schema
+404.html        Not-found page
+robots.txt      Crawler rules
+sitemap.xml     Six URLs
+README.md       This file
 ```
 
-### Self-contained pages (why nothing is linked from /assets/)
+Every page is standalone: its own CSS block, its own schema, relative links only.
 
-`SITE["inline_assets"] = True`, so `generate.py` writes the CSS and JS **into
-every .html file**. Each page works on its own — if the `assets/` folder never
-makes it to the server, the page still renders and the form still works.
+---
 
-You keep editing `assets/styles.css`, `assets/app.js` and `assets/config.js` as
-normal. They are the source; the build copies them in. Re-run `generate.py`
-after any change to them, or the deployed pages keep the old version.
+## Deploy to GitHub Pages
 
-Set `inline_assets` to `False` if you'd rather link them externally (needs the
-`assets/` folder present at the deployed root, and gives shared browser caching
-across the seven pages).
+1. Create a repo, e.g. `sdm-real-estate`. Public.
+2. Upload all files to the **root** of the repo, not inside a subfolder.
+3. Repo → **Settings** → **Pages**.
+4. Source: **Deploy from a branch**. Branch: `main`, folder: `/ (root)`. Save.
+5. Wait 1–2 minutes. Your site is at `https://YOURUSERNAME.github.io/sdm-real-estate/`.
 
-The one thing still loaded externally is the GTB click-capture script, which is
-commented out until you add the file.
+### Custom domain (recommended)
 
-### How to change page copy
+In Settings → Pages → Custom domain, enter your domain. Then at your DNS provider add:
 
-The seven landing pages are generated from one template so shared sections
-(fees table, subjects, proof strip, base FAQ, footer) live in a single place.
-
-```bash
-# edit build/generate.py  →  SITE, PAGES, or the shared blocks
-python3 build/generate.py
-git add . && git commit -m "copy update" && git push
+```
+A     @    185.199.108.153
+A     @    185.199.109.153
+A     @    185.199.110.153
+A     @    185.199.111.153
+CNAME www  YOURUSERNAME.github.io
 ```
 
-Editing a generated `.html` by hand works, but the next `generate.py` run
-overwrites it. Shared changes belong in the blocks; per-page changes belong in
-that page's entry in `PAGES`.
-
-To add a page: copy any dict in `PAGES`, change `slug`, `path`, `variant`,
-title, H1 and the `focus` block, then re-run. The sitemap updates itself.
+Tick **Enforce HTTPS** once the certificate is issued.
 
 ---
 
-## 1. Fill in the blanks before spending anything
+## Important: the contact form does not work on GitHub Pages
 
-**`assets/config.js`** — phone, WhatsApp, address, Maps URL, board exam date,
-GTM ID, Ads conversion IDs, Apps Script URL.
+`contact.html` uses **Netlify Forms** (`data-netlify="true"`). GitHub Pages is static hosting with no form handling, so submissions will fail silently.
 
-**`build/generate.py`** — search for `__` and `[Replace` / `[List` / `[Describe`:
-- proof strip: years teaching, % above 75, practice paper count
-- fees table: timings, seats, amounts
-- 3 real parent/student quotes
-- areas of Bhopal on the near-me page
-- `SITE["gtm"]` — the GTM container ID
+Pick one:
 
-**`privacy.html` / `terms.html`** — replace `[ADD EMAIL]`, `[ADD PHONE]`.
+- **Deploy to Netlify instead** — drag the folder onto netlify.com/drop. The form works immediately, submissions appear under Site settings → Forms.
+- **Stay on GitHub, swap the form handler.** Sign up at formspree.io, then in `contact.html` change:
+  ```html
+  <form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="enquiryForm">
+  ```
+  to:
+  ```html
+  <form method="POST" action="https://formspree.io/f/YOUR_FORM_ID" id="enquiryForm">
+  ```
+  and delete the hidden `form-name` input.
+- **Remove the form** and rely on the call, WhatsApp and email blocks, which all work anywhere.
 
-Nothing may still read `__` at launch. Google's editorial review rejects
-placeholder text, and parents bounce off it faster than the reviewer does.
-
----
-
-## 2. Lead capture
-
-Deploy `apps-script/Code.gs` (steps inside the file), paste the `/exec` URL into
-`config.js` → `formEndpoint`. The sheet carries **`page_variant`**, so you can
-see which URL each lead came from without touching Ads reports.
-
-Blank `formEndpoint` = the form hands off to WhatsApp instead. Fine for day one,
-useless for reporting.
+Phone, WhatsApp and email links work on both hosts regardless.
 
 ---
 
-## 3. GitHub
+## Before you go live
 
-```bash
-cd lakshyha-academy
-git init
-git add .
-git commit -m "Lakshyha Academy Class 10 landing pages"
-git branch -M main
-git remote add origin https://github.com/<username>/lakshyha-academy.git
-git push -u origin main
-```
+**Find and replace across all files**
 
-## 4. Vercel
-
-1. vercel.com → **Add New → Project** → import the repo
-2. Framework preset **Other**, build command empty, output directory empty
-3. Deploy
-4. Project → Settings → **Domains** → add `vercel-test.sdmlabs.in`
-5. At the DNS host for `sdmlabs.in`:
-
-| Type  | Name          | Value                  |
-|-------|---------------|------------------------|
-| CNAME | `vercel-test` | `cname.vercel-dns.com` |
-
-Every `git push` to `main` redeploys automatically.
-
-**When you move to the client's own domain:** update `SITE["domain"]` in
-`generate.py`, set `SITE["noindex"] = False`, re-run, push.
-
----
-
-## 5. Indexing — a deliberate choice
-
-`SITE["noindex"] = True`, so every page carries `noindex,nofollow` and
-`robots.txt` blocks general crawlers while explicitly allowing
-`AdsBot-Google` and `AdsBot-Google-Mobile`.
-
-Reason: `vercel-test.sdmlabs.in` is your test subdomain. If it gets indexed it
-competes with the client's real site and puts your subdomain into search results
-for their brand. Google Ads serves noindex landing pages without any problem —
-but AdsBot must stay allowed or Ads can't check the page and the ads get
-disapproved.
-
-Flip `noindex` to `False` only on the client's own domain.
-
----
-
-## 6. Tracking — GTB v1.2.1, Path A + Method A
-
-- Drop the blueprint's click-capture JS at `assets/gtb-click-capture.js`, then
-  uncomment the `<script>` tag in the `<head>` block inside `generate.py` and
-  re-run so all seven pages get it.
-- The 9 hidden fields are in every form. **Confirm the names against the
-  blueprint's Method A list** — if they differ, rename in `generate.py` and in
-  `apps-script/Code.gs` `HEADERS`.
-- `app.js` fills those fields from the URL as a fallback, so nothing lands blank.
-
-**dataLayer events** (all carry `page_variant`):
-
-| Event | When |
+| Find | Replace with |
 |---|---|
-| `page_variant` push | on page load, before GTM fires |
-| `gtb_form_start` | first keystroke in the form |
-| `gtb_form_submit` | valid submit (also carries `board`, `area`) |
-| `gtb_call_click` | any tel: link tapped |
-| `gtb_whatsapp_click` | any WhatsApp link tapped |
-| `gtb_thank_you_view` | thank-you page loads |
+| `https://sdmrealestate.com/` | your live URL (canonical, OG, schema, sitemap, robots) |
 
-Import the blueprint's GTM container, map these to the conversion actions, fill
-the Conversion ID/Labels in the CONST variables. If conversions fire through GTM
-only, leave `adsConversionId` as `AW-XXXXXXXXXX` — the direct `gtag` fallback in
-`app.js` stays dormant unless real IDs are present, so no double counting.
+**Content to replace**
 
-Register `page_variant` as a dataLayer variable in GTM and pass it to GA4 as a
-custom dimension — that's per-URL conversion rate with no extra setup.
+- `index.html` — hero trust numbers (1,200+ / 4.9 / 60 min), three testimonials
+- `about.html` — founding story, fact panel, four stats, three team names, **RERA registration number** (currently `TS/AGENT/XXXX/XXXX`)
+- `services.html` — every fee in the pricing table
+- `faq.html` — fee answers in **both** the visible accordion and the FAQPage JSON-LD; they must match services.html
+- `coverage.html` — paste your Google Maps iframe where `<!-- MAP EMBED HERE -->` is, replacing the `.mapholder` div
+- `contact.html` + `faq.html` — confirm the opening hours
+- Add `og-image.jpg` (1200×630) to the folder root
 
-Run the 29-check pre-launch audit before go-live. No campaign changes for 30 days after.
+**Tracking**
+
+Paste your GTM container snippet at `<!-- GTM CODE HERE -->` in all seven HTML files. The `dataLayer` array is already initialised above it.
+
+Events already firing:
+
+| Event | Fires on | `cta_location` values |
+|---|---|---|
+| `call_now_click` | every `tel:` link | `topbar`, `header`, `hero`, `sticky`, `footer`, `final`, `map`, `coverage_banner`, `faq_stuck`, `404`, plus per-service and per-contact-block values |
+| `whatsapp_click` | every WhatsApp link | always `whatsapp`; the placement is in `cta_placement` |
+| `form_submit` | contact form submit | `contact_form` |
+
+**After launch**
+
+- Google Search Console: add the property, submit `sitemap.xml`
+- Google Business Profile: make sure NAP (name, phone, address) matches the site exactly
+- Test the schema at `search.google.com/test/rich-results`
+- Run PageSpeed Insights on mobile
 
 ---
 
-## 7. If a page renders as plain text
+## Editing tips
 
-Unstyled page, no phone number in the header, countdown stuck on `—`, blank
-address: that is not a CSS bug. It means the browser got the HTML but nothing
-else. Check in this order:
+Each page repeats its own `<style>` block, by design — that keeps every file standalone. The trade-off is that a colour or header change must be made in all seven files. The tokens live at the top of each `<style>` block:
 
-1. Open `/assets/styles.css` on the live domain. A 404 means the folder isn't
-   deployed. With `inline_assets = True` this can't happen — re-run
-   `generate.py` and push the regenerated `.html` files.
-2. **Vercel → Settings → Build & Deployment → Root Directory** must be empty or
-   `./`. If the repo has everything inside a `lakshyha-academy/` folder, either
-   set Root Directory to that folder or move the files up to the repo root.
-3. If you uploaded through the GitHub web UI, check the repo actually shows an
-   `assets/` folder. Drag-and-drop often drops folders silently. `git push` from
-   the command line is safer.
-4. Case matters on Vercel. `Assets/` is not `assets/`.
+```css
+--green:#0B5D3B;   /* primary */
+--ink:#101A15;     /* dark */
+--stone:#ECEEE9;   /* background */
+--gold:#C9A227;    /* accent / call buttons */
+```
 
-## 8. Pre-launch checklist
-
-- [ ] Every `__` and `[Replace ...]` gone from all seven pages
-- [ ] Phone tested on a real mobile (tap-to-call works)
-- [ ] Form submits → row in the Sheet with the right `page_variant` → thank-you page
-- [ ] `gclid` lands in the sheet (test with `?gclid=test123`)
-- [ ] Each ad group's Final URL points at its own page, not the homepage
-- [ ] Privacy policy link visible above the fold on mobile
-- [ ] `robots.txt` allows AdsBot (check at `/robots.txt` after deploy)
-- [ ] Auto-tagging ON in the Ads account
-- [ ] Ad headline matches the H1 promise on the page it lands on
-- [ ] Page renders styled on the live URL, not just locally
+Phone number appears as `+917483736358` in `tel:` and `wa.me` links, and as `+91 74837 36358` in visible text. Change both if the number ever changes.

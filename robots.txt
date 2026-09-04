@@ -1,10 +1,7 @@
-# Test domain — kept out of organic search.
-# AdsBot must stay allowed or Google Ads cannot check the landing page.
-User-agent: AdsBot-Google
-Allow: /
-
-User-agent: AdsBot-Google-Mobile
-Allow: /
+# SDM Real Estate — robots.txt
+# Replace the sitemap URL below with your live domain before or just after deploying.
 
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://sdmrealestate.com/sitemap.xml
