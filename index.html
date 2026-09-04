@@ -68,7 +68,8 @@ p{margin:0 0 1em}
 .head{max-width:60ch;margin-bottom:32px}
 
 /* focus */
-a:focus-visible,button:focus-visible,summary:focus-visible{
+a:focus-visible,button:focus-visible,summary:focus-visible,
+input:focus-visible,textarea:focus-visible,select:focus-visible{
   outline:3px solid var(--gold);outline-offset:3px;border-radius:6px;
 }
 
@@ -202,6 +203,33 @@ a:focus-visible,button:focus-visible,summary:focus-visible{
 .faq summary::after{content:"+";font-size:1.5rem;font-weight:400;color:var(--green);line-height:1}
 .faq details[open] summary::after{content:"–"}
 .faq .ans{padding:0 22px 20px;color:var(--ink-soft);font-size:.98rem;margin:0}
+
+/* enquiry form */
+.formwrap{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:700;font-size:.95rem;margin-bottom:7px}
+.field .hint{font-weight:400;color:var(--ink-soft);font-size:.88rem}
+.field input,.field textarea{
+  width:100%;font-family:inherit;font-size:1rem;color:var(--ink);
+  background:var(--stone);border:1px solid var(--line);border-radius:10px;
+  padding:14px 15px;min-height:52px;
+}
+.field textarea{min-height:120px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:#8A968F}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.formnote{font-size:.88rem;color:var(--ink-soft);margin:14px 0 0}
+.formside{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 24px;border-top:4px solid var(--gold);
+}
+.formside h3{margin-bottom:10px}
+.formside p{color:var(--ink-soft);font-size:.96rem}
+.formside .num{
+  display:inline-block;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--green);text-decoration:none;margin:6px 0 16px;
+}
+.formside .num:hover{text-decoration:underline}
 
 /* final CTA */
 .final{background:var(--green);color:#fff;border-radius:var(--radius);padding:44px 34px;text-align:center}
@@ -537,6 +565,73 @@ a:focus-visible,button:focus-visible,summary:focus-visible{
   </div>
 </section>
 
+<!-- ============ 8b. ENQUIRY FORM ============ -->
+<section class="section" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)" aria-labelledby="enquiry">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="enquiry">Send us your requirement</h2>
+      <p class="lede">Three fields. We call you back on the number you leave, usually within the hour.</p>
+    </div>
+
+    <div class="formwrap">
+      <div class="form">
+        <!--
+          NETLIFY FORMS
+          Works automatically on Netlify. No backend needed.
+          - data-netlify="true" registers the form
+          - the hidden "form-name" input must match the form's name attribute
+          - netlify-honeypot adds spam protection via the hidden bot-field
+          Submissions appear under Site settings > Forms.
+
+          ON GITHUB PAGES THIS WILL NOT CAPTURE ANYTHING. To use Formspree instead,
+          replace the <form> tag with:
+          <form method="POST" action="https://formspree.io/f/YOUR_FORM_ID" id="homeEnquiryForm">
+          and delete the hidden form-name input below.
+
+          NOTE: Netlify treats each form name as a separate form. This one is
+          "home-enquiry" so its submissions stay separate from the contact page's
+          "enquiry" form.
+        -->
+        <form name="home-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="homeEnquiryForm">
+          <input type="hidden" name="form-name" value="home-enquiry">
+          <p class="hp">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
+          <div class="field">
+            <label for="h-name">Your name</label>
+            <input type="text" id="h-name" name="name" autocomplete="name" placeholder="Full name" required>
+          </div>
+
+          <div class="field">
+            <label for="h-phone">Phone number <span class="hint">— we will call you on this</span></label>
+            <input type="tel" id="h-phone" name="phone" autocomplete="tel" inputmode="tel"
+                   placeholder="+91 XXXXX XXXXX" pattern="[0-9+ ()-]{8,20}" required>
+          </div>
+
+          <div class="field">
+            <label for="h-message">What are you looking for? <span class="hint">— budget, area, timeline</span></label>
+            <textarea id="h-message" name="message" placeholder="Example: 3BHK in Kondapur, budget around 1.2 Cr, possession by March."></textarea>
+          </div>
+
+          <button class="btn btn--dark btn--block" type="submit" data-form="home-enquiry">Send enquiry</button>
+
+          <p class="formnote">We use your number only to reply to this enquiry. No marketing calls, no sharing with builders.</p>
+        </form>
+      </div>
+
+      <div class="formside">
+        <h3>In a hurry?</h3>
+        <p>Good listings in Hyderabad move within days. A call gets you an answer in minutes; the form is answered within one working day.</p>
+        <a class="num" href="tel:+917483736358" data-cta="call" data-loc="form_side">+91 74837 36358</a>
+        <a class="btn btn--call btn--block" href="tel:+917483736358" data-cta="call" data-loc="form_side_button">Call instead</a>
+        <p style="margin:14px 0 0;font-size:.92rem;color:var(--ink-soft)">Or <a href="https://wa.me/917483736358?text=Hi%20SDM%20Real%20Estate%2C%20I%27m%20looking%20for%20a%20property."
+           target="_blank" rel="noopener" data-cta="wa" data-loc="form_side_whatsapp">message us on WhatsApp</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 9. FINAL CTA ============ -->
 <section class="section section--tight">
   <div class="wrap">
@@ -619,6 +714,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible{
       window.dataLayer.push({ event: 'whatsapp_click', cta_location: 'whatsapp', cta_placement: loc });
     }
   }, { passive: true });
+
+  var hf = document.getElementById('homeEnquiryForm');
+  if (hf) {
+    hf.addEventListener('submit', function () {
+      window.dataLayer.push({ event: 'form_submit', cta_location: 'home_form' });
+    });
+  }
 })();
 </script>
 
