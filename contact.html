@@ -609,6 +609,140 @@ button[disabled]{opacity:.65;cursor:progress}
      ========================================================== -->
 <script>
 (function () {
+
+  /* ---- PASTE YOUR APPS SCRIPT WEB APP URL BETWEEN THE QUOTES ----
+     It must look like:
+     https://script.google.com/macros/s/AKfycb..................../exec
+     Ending in /exec, NOT /dev.                                     */
+  var SDM_FORM_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
+  var form = document.getElementById('enquiryForm');
+  if (!form) return;
+
+  var btn     = form.querySelector('button[type="submit"]');
+  var errBox  = document.getElementById('enquiryForm-error');
+  var okBox   = document.getElementById('enquiryForm-success');
+  var btnText = btn ? btn.textContent : 'Send enquiry';
+
+  function reset() {
+    if (btn) { btn.disabled = false; btn.textContent = btnText; }
+  }
+
+  function showError(msg) {
+    if (!errBox) return;
+    errBox.querySelector('p').innerHTML = msg +
+      ' Or call <a href="tel:+917483736358" data-cta="call" data-loc="form_error">+91 74837 36358</a> instead.';
+    errBox.hidden = false;
+    reset();
+  }
+
+  function showSuccess() {
+    window.dataLayer.push({ event: 'form_submit', cta_location: 'contact_form' });
+    if (okBox) {
+      form.hidden = true;
+      okBox.hidden = false;
+      okBox.setAttribute('tabindex', '-1');
+      okBox.focus();
+    }
+  }
+
+  // Fresh body each attempt — a URLSearchParams sent once cannot be reused.
+  function buildBody(leadId) {
+    var b = new URLSearchParams(new FormData(form));
+    b.append('page', 'contact.html');
+    b.append('referrer', document.referrer || '');
+    b.append('lead_id', leadId);   // lets the script ignore a duplicate retry
+    return b;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(SDM_FORM_ENDPOINT)) {
+      console.error('SDM: SDM_FORM_ENDPOINT is not set to a valid Apps Script /exec URL.');
+      showError('This form is not connected yet.');
+      return;
+    }
+
+    if (errBox) errBox.hidden = true;
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+
+    var leadId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+    // URLSearchParams keeps this a "simple" request, so no CORS preflight,
+    // which Apps Script cannot answer.
+    fetch(SDM_FORM_ENDPOINT, { method: 'POST', body: buildBody(leadId) })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.result === 'ok') {
+          showSuccess();
+        } else {
+          showError((data && data.message) || 'We could not send that.');
+        }
+      })
+      .catch(function (err) {
+        // Apps Script answers via a redirect that some browsers and privacy
+        // extensions refuse to expose to the page. The POST itself still
+        // arrives, so resend in no-cors mode: we cannot read the reply, but
+        // the lead is recorded. lead_id stops it being saved twice.
+        console.warn('SDM: readable request failed, retrying opaque.', err);
+        fetch(SDM_FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: buildBody(leadId) })
+          .then(function () { showSuccess(); })
+          .catch(function (err2) {
+            console.error('SDM: submission failed.', err2);
+            showError('We could not reach our server. Please check your connection and try again.');
+          });
+      });
+  });
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "@id": "https://sdmrealestate.com/#business",
+  "name": "SDM Real Estate",
+  "url": "https://sdmrealestate.com/",
+  "image": "https://sdmrealestate.com/og-image.jpg",
+  "telephone": "+91-74837-36358",
+  "email": "sdmrealestate@gmail.com",
+  "priceRange": "₹₹",
+  "description": "Contact SDM Real Estate for property buying, selling, rentals and investment advice across Hyderabad. Calls answered 24/7.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "addressCountry": "IN"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Hyderabad" },
+    { "@type": "City", "name": "Secunderabad" }
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  }],
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "telephone": "+91-74837-36358",
+    "contactType": "sales",
+    "areaServed": "IN",
+    "availableLanguage": ["English","Telugu","Hindi"]
+  }]
+}
+</script>
+
+<!-- ==========================================================
+     ENQUIRY FORM HANDLER  (Google Apps Script backend)
+     Paste your deployed Web app URL below. See Code.gs for setup.
+     ========================================================== -->
+<script>
+(function () {
   var SDM_FORM_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
 
   var form = document.getElementById('enquiryForm');

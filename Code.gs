@@ -63,6 +63,17 @@ function doPost(e) {
       return jsonResponse_({ result: 'ok' });
     }
 
+    // Duplicate guard. The website retries a submission if the browser blocks
+    // the reply, so the same lead_id can arrive twice. Save it only once.
+    const leadId = String(data.lead_id || '').trim();
+    if (leadId) {
+      const cache = CacheService.getScriptCache();
+      if (cache.get('lead_' + leadId)) {
+        return jsonResponse_({ result: 'ok', duplicate: true });
+      }
+      cache.put('lead_' + leadId, '1', 600); // remember for 10 minutes
+    }
+
     const name = String(data.name || '').trim();
     const phone = String(data.phone || '').trim();
     const message = String(data.message || '').trim();
@@ -265,7 +276,8 @@ function testSubmission() {
       phone: '+91 90000 00000',
       message: '3BHK in Kondapur, budget around 1.2 Cr. This is a test row, delete it.',
       page: 'test',
-      referrer: 'manual test'
+      referrer: 'manual test',
+      lead_id: 'manual-' + Date.now()
     }
   };
   const res = doPost(fake);
