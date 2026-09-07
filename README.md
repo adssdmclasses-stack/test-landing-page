@@ -45,25 +45,41 @@ Tick **Enforce HTTPS** once the certificate is issued.
 
 ---
 
-## Important: the contact form does not work on GitHub Pages
+## Forms: Google Apps Script backend
 
-`contact.html` uses **Netlify Forms** (`data-netlify="true"`). GitHub Pages is static hosting with no form handling, so submissions will fail silently.
+Both forms (`index.html` and `contact.html`) post to a Google Apps Script web app,
+which writes each lead to a Google Sheet and emails you. This works on GitHub Pages,
+Vercel, Netlify or any static host — no server required.
 
-Pick one:
+Full setup steps are in the comment block at the bottom of `Code.gs`. Summary:
 
-- **Deploy to Netlify instead** — drag the folder onto netlify.com/drop. The form works immediately, submissions appear under Site settings → Forms.
-- **Stay on GitHub, swap the form handler.** Sign up at formspree.io, then in `contact.html` change:
-  ```html
-  <form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="enquiryForm">
-  ```
-  to:
-  ```html
-  <form method="POST" action="https://formspree.io/f/YOUR_FORM_ID" id="enquiryForm">
-  ```
-  and delete the hidden `form-name` input.
-- **Remove the form** and rely on the call, WhatsApp and email blocks, which all work anywhere.
+1. Open your leads Google Sheet > **Extensions > Apps Script**
+2. Paste all of `Code.gs`, save, edit the CONFIGURATION block at the top
+3. Run `testSubmission` once and approve the permissions prompt
+4. **Deploy > New deployment > Web app**
+   - Execute as: **Me**
+   - Who has access: **Anyone**  ← not "Anyone with a Google account"
+5. Copy the `/exec` URL and paste it into `SDM_FORM_ENDPOINT` near the bottom of
+   **both** `index.html` and `contact.html`
 
-Phone, WhatsApp and email links work on both hosts regardless.
+After editing the script later, always **Deploy > Manage deployments > pencil >
+Version: New version**. Saving alone does not update the live endpoint.
+
+### Troubleshooting
+
+**HTTP 405 on submit** — you are running an older copy of the file where the form
+had `method="POST"`. Static hosts reject POST requests to a page. View source on
+the live page: the form tag must read `<form id="homeEnquiryForm" novalidate>`
+with no `method`, `action`, or `data-netlify`. Re-upload and hard refresh
+(Ctrl+Shift+R) to clear the cache.
+
+**CORS error in the console** — the deployment access is wrong. Set
+"Who has access" to **Anyone** and redeploy as a new version.
+
+**Nothing appears in the sheet** — the Apps Script project must be created from
+inside the sheet (Extensions > Apps Script), not as a standalone project.
+
+**Form does nothing at all** — `SDM_FORM_ENDPOINT` is still the placeholder text.
 
 ---
 

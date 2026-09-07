@@ -204,6 +204,20 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
   content:"";position:absolute;left:2px;top:17px;width:9px;height:9px;border-radius:2px;background:var(--gold);
 }
 
+
+/* form status messages */
+.formmsg{border-radius:12px;padding:22px 24px;margin:0}
+.formmsg h3{margin-bottom:6px}
+.formmsg p{margin:0;font-size:.97rem}
+.formmsg--ok{background:#E6F1EA;border:1px solid #B6D6C6;border-left:5px solid var(--green)}
+.formmsg--ok h3{color:var(--green)}
+.formmsg--ok p{color:#2C4A3B}
+.formmsg--err{background:#FBEDE9;border:1px solid #EBC9BE;border-left:5px solid #A8442A;margin-top:16px}
+.formmsg--err h3{color:#A8442A;font-size:1rem}
+.formmsg--err p{color:#7A3520}
+.formmsg--err a{color:#7A3520;font-weight:800}
+button[disabled]{opacity:.65;cursor:progress}
+
 /* ---------- final CTA ---------- */
 .final{background:var(--green);color:#fff;border-radius:var(--radius);padding:44px 34px;text-align:center}
 .final h2{color:#fff;max-width:22ch;margin-inline:auto}
@@ -421,18 +435,14 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
 
     <div class="form">
       <!--
-        NETLIFY FORMS
-        Works automatically once deployed to Netlify. No backend needed.
-        - data-netlify="true" registers the form
-        - the hidden "form-name" input must match the form's name attribute
-        - netlify-honeypot adds spam protection via the hidden bot-field
-        Submissions appear under Site settings > Forms in your Netlify dashboard.
-        NOTE: this will NOT capture submissions on GitHub Pages — Netlify only.
+        This form posts to a Google Apps Script web app, which writes the lead
+        to a Google Sheet and emails you. Works on GitHub Pages, Netlify or any
+        static host. Setup steps are in Code.gs.
+        Paste your deployed URL into SDM_FORM_ENDPOINT at the bottom of this file.
       -->
-      <form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="enquiryForm">
-        <input type="hidden" name="form-name" value="enquiry">
+      <form id="enquiryForm" novalidate>
         <p class="hp">
-          <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          <label>Leave this field empty: <input name="bot_field" tabindex="-1" autocomplete="off"></label>
         </p>
 
         <div class="field">
@@ -455,6 +465,17 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
 
         <p class="formnote">We use your number only to reply to this enquiry. No marketing calls, no sharing with builders.</p>
       </form>
+
+      <div class="formmsg formmsg--ok" id="enquiryForm-success" role="status" hidden>
+        <h3>Got it. We will call you shortly.</h3>
+        <p>Your enquiry is with us. If it is urgent, call <a href="tel:+917483736358" data-cta="call" data-loc="form_success">+91 74837 36358</a> and we will pick up.</p>
+      </div>
+
+      <div class="formmsg formmsg--err" id="enquiryForm-error" role="alert" hidden>
+        <h3>That did not send</h3>
+        <p></p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -541,13 +562,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
       window.dataLayer.push({ event: 'whatsapp_click', cta_location: 'whatsapp', cta_placement: loc });
     }
   }, { passive: true });
-
-  var f = document.getElementById('enquiryForm');
-  if (f) {
-    f.addEventListener('submit', function () {
-      window.dataLayer.push({ event: 'form_submit', cta_location: 'contact_form' });
-    });
-  }
 })();
 </script>
 
@@ -587,6 +601,67 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
     "availableLanguage": ["English","Telugu","Hindi"]
   }]
 }
+</script>
+
+<!-- ==========================================================
+     ENQUIRY FORM HANDLER  (Google Apps Script backend)
+     Paste your deployed Web app URL below. See Code.gs for setup.
+     ========================================================== -->
+<script>
+(function () {
+  var SDM_FORM_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
+  var form = document.getElementById('enquiryForm');
+  if (!form) return;
+
+  var btn    = form.querySelector('button[type="submit"]');
+  var errBox = document.getElementById('enquiryForm-error');
+  var okBox  = document.getElementById('enquiryForm-success');
+  var btnText = btn ? btn.textContent : 'Send enquiry';
+
+  function showError(msg) {
+    if (!errBox) return;
+    errBox.querySelector('p').innerHTML = msg +
+      ' Or call <a href="tel:+917483736358" data-cta="call" data-loc="form_error">+91 74837 36358</a> instead.';
+    errBox.hidden = false;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    if (errBox) errBox.hidden = true;
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+
+    // URLSearchParams keeps this a "simple" request, so the browser
+    // sends it without a CORS preflight that Apps Script cannot answer.
+    var body = new URLSearchParams(new FormData(form));
+    body.append('page', 'contact.html');
+    body.append('referrer', document.referrer || '');
+
+    fetch(SDM_FORM_ENDPOINT, { method: 'POST', body: body })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.result === 'ok') {
+          window.dataLayer.push({ event: 'form_submit', cta_location: 'contact_form' });
+          if (okBox) {
+            form.hidden = true;
+            okBox.hidden = false;
+            okBox.setAttribute('tabindex', '-1');
+            okBox.focus();
+          }
+        } else {
+          showError((data && data.message) || 'We could not send that.');
+          if (btn) { btn.disabled = false; btn.textContent = btnText; }
+        }
+      })
+      .catch(function () {
+        showError('We could not reach our server. Please check your connection and try again.');
+        if (btn) { btn.disabled = false; btn.textContent = btnText; }
+      });
+  });
+})();
 </script>
 
 </body>
