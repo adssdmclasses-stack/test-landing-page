@@ -740,7 +740,7 @@ button[disabled]{opacity:.65;cursor:progress}
      Must look like:
      https://script.google.com/macros/s/AKfycb..................../exec
      Ending in /exec, NOT /dev.                                     */
-  var SDM_FORM_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+  var SDM_FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgmgnVnXkWiy8DClyv78DsXcwM9_XjWhSzygvwp3ogGm_Q3GICdLFpfVOT2-gTrEmJmQ/exec';
 
   var form = document.getElementById('homeEnquiryForm');
   if (!form) return;
@@ -773,8 +773,11 @@ button[disabled]{opacity:.65;cursor:progress}
 
     if (!form.reportValidity()) return;
 
-    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(SDM_FORM_ENDPOINT)) {
-      console.error('SDM: SDM_FORM_ENDPOINT is not a valid Apps Script /exec URL.');
+    // Accepts both URL shapes Apps Script produces:
+    //   personal Gmail : https://script.google.com/macros/s/AKfyc.../exec
+    //   Workspace      : https://script.google.com/a/macros/DOMAIN/s/AKfyc.../exec
+    if (!/^https:\/\/script\.google\.com\/(a\/macros\/[^\/]+\/)?(macros\/)?s\/[^\/]+\/exec/.test(SDM_FORM_ENDPOINT)) {
+      console.error('SDM: SDM_FORM_ENDPOINT does not look like an Apps Script /exec URL. Current value:', SDM_FORM_ENDPOINT);
       showError('This form is not connected yet.');
       return;
     }
